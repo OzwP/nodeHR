@@ -1,5 +1,5 @@
 const express = require("express");
-const pokemon = express.Router();
+const admin = express.Router();
 const db = require("../config/database")
 
 pokemon.post("/", async (req, res, next) => {
@@ -76,8 +76,8 @@ pokemon.patch("/:id([0-9]{1,3})", async (req,res,next) => {
 
 })
 
-pokemon.get("/", async (req,res,next) => {
-	const pkmn = await db.query("SELECT * FROM pokemon");
+admin.get("/", async (req,res,next) => {
+	const pkmn = await db.query("SELECT * FROM user");
 	res.status(200).json({code: 200, message : pkmn})
 })
 
@@ -100,4 +100,27 @@ pokemon.get("/:name([A-za-z]+)", async (req, res, next) => {
 		res.status(404).json({ code: 404, message: "Pokemon no encontrado"})
 })
 
-module.exports = pokemon
+admin.post("/login", async (req,res,next) => {
+	const {user_mail, user_password} = req.body
+
+	if (user_mail && user_password) {
+
+		const query = `SELECT * FROM user WHERE user_mail = ? AND user_password = ? AND role = 1;`
+		const rows = await db.query(query,[user_mail,user_password])
+
+		if (rows.length == 1) {
+			const token = jwt.sign({
+				user_id: rows[0].user_id,
+				user_mail: rows[0].user_mail
+			}, "debugkey")
+			return res.status(200).json({code: 200, message : token})
+
+		} else {
+			return res.status(200).json({code: 200, message : "Usuario y/o contraseña incorrectos"})
+		}
+	}
+	return res.status(500).json({code:500,message:"Campos incompletos"}) 	
+
+})
+
+module.exports = admin

@@ -5,7 +5,7 @@ const express = require("express");
 const app = express();
 const morgan = require("morgan")
 // Routers
-// const pokemon = require("./routes/pokemon")
+const admin = require("./routes/admin")
 const user = require("./routes/user")
 // Middleware
 const auth = require("./middleware/auth")
@@ -22,8 +22,10 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get("/", index)
 app.use("/user", user)
+
 app.use(auth)
-// app.use("/pokemon",pokemon)
+app.use("/admin",admin)
+
 app.use(notFound)
 
 app.listen(process.env.PORT || 3000, () => {
