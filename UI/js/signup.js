@@ -60,6 +60,7 @@ function signup(mthd) {
 			window.location.href = "data.html";
 		}).catch((err) => {
 			console.log(err)
+			alert(err.response.data.message)
 		})
 
 	} else {
@@ -72,6 +73,7 @@ function signup(mthd) {
 			window.location.href = "data.html";
 		}).catch((err) => {
 			console.log(err)
+			alert(err.response.data.message)
 		})
 	}
 }

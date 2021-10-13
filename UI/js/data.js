@@ -32,6 +32,7 @@ function loadUsers() {
 	})
 	.catch(function(err) {
 		console.log(err)
+		alert(err.response.data.message)
 	})
 }
 
@@ -72,6 +73,7 @@ function uPatch(id) {
 	})
 	.catch(function(err) {
 		console.log(err)
+		alert(err.response.data.message)
 	})
 }
 
@@ -83,6 +85,7 @@ function uDel(id) {
 	})
 	.catch(function(err) {
 		console.log(err)
+		alert(err.response.data.message)
 	})
 }
 
@@ -95,5 +98,12 @@ function search() {
 	})
 	.catch(function(err) {
 		console.log(err)
+		alert(err.response.data.message)
+		
 	})
+}
+
+function logout() {
+	localStorage.removeItem('token')
+	window.location.reload()
 }
