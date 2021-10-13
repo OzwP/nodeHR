@@ -82,7 +82,7 @@ admin.get("/:name([A-za-z]+)", async (req, res, next) => {
 admin.post("/signup", async (req,res,next) => {
 	const {user_name, user_mail, user_password, user_lastname, user_phone, user_address} = req.body
 
-	if (user_name && user_mail && user_password, user_lastname, user_phone, user_address) {
+	if (user_name && user_mail && user_password && user_lastname && user_phone.length <= 10 && user_address) {
 
 		let query = `INSERT INTO user(user_name, user_lastname, user_mail, user_password, user_phone, user_address) ` 
 		query += ` VALUES (?, ?, ?, ?, ?, ?); `

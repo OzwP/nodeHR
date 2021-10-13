@@ -28,18 +28,34 @@ function init() {
 function loadUsers() {
 	axios.get(url+"/admin/", headers)
 	.then(function(res) {
-		displayUsers(res.data.message )
+		displayUsers(res.data.message, 0)
 	})
 	.catch(function(err) {
 		console.log(err)
 	})
 }
 
-function displayUsers(usrs) {
+function displayUsers(usrs, info) {
 	var body = document.querySelector("body");
-	for (var i = 0; i < usrs.length; i++) {
-		body.innerHTML += `<br><h3>${usrs[i].user_name}</h3> <button onclick='window.location.href="patch.html?id=${usrs[i].user_id}"'>PATCH</button><button onclick='window.location.href="signin.html?id=${usrs[i].user_id}"'>PUT</button><button onclick='uDel(${usrs[i].user_id})'>DELETE</button><br>`
+
+	if (info) {
+		body.innerHTML = "";
+		console.log(usrs)
+		for (var e in usrs) {
+			for (var i in usrs[e]) {
+				body.innerHTML += `<br><h3>${i}: </h3> <h2> ${usrs[e][i]}</h2>`
+			}
+			body.innerHTML += `<button onclick='window.location.href="patch.html?id=${usrs[e].user_id}"'>PATCH</button><button onclick='window.location.href="signin.html?id=${usrs[e].user_id}"'>PUT</button><button onclick='uDel(${usrs[e].user_id})'>DELETE</button><br>`
+		}
+
+	} else {
+		
+		for (var i = 0; i < usrs.length; i++) {
+			body.innerHTML += `<br><h3>${usrs[i].user_name}</h3> <button onclick='window.location.href="patch.html?id=${usrs[i].user_id}"'>PATCH</button><button onclick='window.location.href="signin.html?id=${usrs[i].user_id}"'>PUT</button><button onclick='uDel(${usrs[i].user_id})'>DELETE</button><br>`
+		}
+
 	}
+	
 }
 
 function uPatch(id) {
@@ -64,6 +80,18 @@ function uDel(id) {
 	.then(function(res) {
 		alert(res.data.message)
 		window.location.href = "data.html";
+	})
+	.catch(function(err) {
+		console.log(err)
+	})
+}
+
+function search() {
+	var name = document.getElementById("sVal").value;
+
+	axios.get(url+"/admin/"+name, headers)
+	.then(function(res) {
+		displayUsers(res.data.message, 1)
 	})
 	.catch(function(err) {
 		console.log(err)
