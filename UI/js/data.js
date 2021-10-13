@@ -39,7 +39,7 @@ function displayUsers(usrs, info) {
 	var body = document.querySelector("body");
 
 	if (info) {
-		body.innerHTML = "";
+		body.innerHTML = "<button onclick='window.location.reload()'>Regresar</button>";
 		console.log(usrs)
 		for (var e in usrs) {
 			for (var i in usrs[e]) {
